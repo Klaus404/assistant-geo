@@ -29,6 +29,7 @@ from ecapture import ecapture as ec
 
 # print(json.__doc__)
 
+# engine is something awesome
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('rate', 250)

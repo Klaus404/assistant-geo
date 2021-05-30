@@ -5,6 +5,7 @@ import speech_recognition as sr
 from datetime import datetime
 import datetime
 import webbrowser
+from selenium import webdriver
 import os
 import pyjokes
 import time
@@ -34,9 +35,6 @@ engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('rate', 250)
 engine.setProperty('voice', voices[1].id)
-
-
-j_file = open("intelepciune.json", "r")
 
 
 def speak(audio):
@@ -103,7 +101,7 @@ def take_picture():
 def play_game(game_play):
 
     while True:
-        if 'bye' in game_play or 'stop playing' in game_play or 'end' in game_play:
+        if 'bye' in game_play or 'stop playing' in game_play or 'end' in game_play or 'stop' in game_play:
             break
 
         speak("What game would you like to play?")
@@ -203,9 +201,19 @@ def wiki_search(searched):
     print(wikipedia.summary(ser))
 
 
-def search_something():
-    thing = takeCommand()
-    webbrowser.open(f"https://{thing}.com")
+def search_something(thing):
+    searched_querry = ""
+    for element in thing:
+        searched_querry = searched_querry + "+" + element
+    url = "https://www.google.com/search?q=" + searched_querry
+    chrome_path = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+    driver = webdriver.Chrome(chrome_path)
+    driver.get(url)
+
+
+def get_time():
+    now = datetime.datetime.now()
+    speak(f"The time is{now.hour, now.minute}")
 
 
 def to_do(to_do_info):
@@ -250,18 +258,18 @@ if __name__ == '__main__':
     clear()
     # say_hi()
     # usrname()
+
     while True:
 
         querty = str(takeCommand().lower())
 
         if 'time' in querty:
-            now = datetime.datetime.now()
-            speak(f"The time is{now.hour, now.minute}")
+            get_time()
 
         elif 'game' in querty:
             play_game(querty)
 
-        elif 'search' in querty or 'search for' in querty:
+        elif 'summary' in querty or 'wiki summary' in querty:
             wiki_search(querty)
 
         elif 'google' in querty or 'gogu' in querty:
@@ -371,7 +379,7 @@ if __name__ == '__main__':
             subprocess.call('shutdown / p /f')
 
         elif 'search' in querty or 'find' in querty:
-            search_something()
+            search_something(querty)
 
         elif "restart" in querty:
             subprocess.call(["shutdown", "/r"])

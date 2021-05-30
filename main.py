@@ -273,7 +273,7 @@ if __name__ == '__main__':
             webbrowser.open("https://online.ase.ro/")
 
         elif 'picture' in querty:
-            take_picture(querty)
+            take_picture()
 
         elif 'youtube' in querty:
             speak("Opening the best songs for you")

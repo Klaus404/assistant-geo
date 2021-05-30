@@ -192,6 +192,17 @@ def get_random_number():
     speak(randrange(first_limit, b))
 
 
+def wiki_search(searched):
+    if 'search for' in querty:
+        ser = searched.replace("search for", "")
+    else:
+        ser = searched.replace("search", "")
+
+    engine.setProperty('rate', 150)
+    speak(wikipedia.summary(ser))
+    print(wikipedia.summary(ser))
+
+
 def search_something():
     thing = takeCommand()
     webbrowser.open(f"https://{thing}.com")
@@ -251,14 +262,7 @@ if __name__ == '__main__':
             play_game(querty)
 
         elif 'search' in querty or 'search for' in querty:
-            if 'search for' in querty:
-                ser = querty.replace("search for", "")
-            else:
-                ser = querty.replace("search", "")
-
-            engine.setProperty('rate', 150)
-            speak(wikipedia.summary(ser))
-            print(wikipedia.summary(ser))
+            wiki_search(querty)
 
         elif 'google' in querty or 'gogu' in querty:
             speak("Opening Google.Com")
@@ -269,7 +273,7 @@ if __name__ == '__main__':
             webbrowser.open("https://online.ase.ro/")
 
         elif 'picture' in querty:
-            take_picture()
+            take_picture(querty)
 
         elif 'youtube' in querty:
             speak("Opening the best songs for you")

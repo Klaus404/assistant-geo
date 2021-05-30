@@ -100,17 +100,16 @@ def take_picture():
     ec.capture(0, False, "poza.jpg")
 
 
-def play_game():
-    game_name = takeCommand()
+def play_game(game_play):
 
     while True:
-        if 'bye' in game_name or 'stop playing' in game_name or 'end' in game_name:
+        if 'bye' in game_play or 'stop playing' in game_play or 'end' in game_play:
             break
 
         speak("What game would you like to play?")
-        game = takeCommand()
+        game_name = takeCommand()
 
-        if 'guess' in game or 'guess the number' in game or 'number ' in game:
+        if 'guess' in game_name or 'guess the number' in game_name or 'number ' in game_name:
             speak("What s the limit?")
             x = takeCommand()
             if x.isnumeric():
@@ -149,11 +148,11 @@ def play_game():
                     speak("Do you want to continue?")
                     cont = takeCommand()
                     if 'yes' in cont:
-                        game = 'guess the number'
+                        game_name = 'guess the number'
                     else:
                         break
 
-        if 'rock' in game or 'paper' in game or 'scissors' in game:
+        if 'rock' in game_name or 'paper' in game_name or 'scissors' in game_name:
             speak("TO BE ADDED")
 
         else:
@@ -198,38 +197,37 @@ def search_something():
     webbrowser.open(f"https://{thing}.com")
 
 
-def to_do():
-    to_do_info = takeCommand()
-    to_do_info = to_do_info.replace('add', "")
+def to_do(to_do_info):
+    if 'add' in to_do_info:
+        to_do_info = to_do_info.replace('add', "")
+
     to_do_info = to_do_info.replace('to do', "")
 
     if 'list' in to_do_info:
         to_do_info = to_do_info.replace('list', "")
 
-    speak(f"{to_do_info} added to your to do list!")
-
     td = open("de_facut.txt", "a")
     td.write(to_do_info + "\n")
     td.close()
+    speak(f"{to_do_info} added to your to do list!")
 
 
-def get_location():
-
-    location = str(takeCommand().lower())
+def get_location(location):
     location = location.replace("where is", "")
-    location = location
     speak("User asked to Locate")
     speak(location)
     webbrowser.open("https://www.google.ro/maps/place/" + location + "")
 
 
-def no_answer_questions():
-    not_answered = takeCommand().lower()
-    speak('I don t know how to respond to this question. Try again!')
+def no_answer_questions(not_answered):
+    not_answered = not_answered.lower()
     if not_answered != 'none':
         f = open("intrebari.txt", "a")
         f.write(not_answered + "\n")
         f.close()
+        speak('I don t know how to respond to this question. Try again!')
+    else:
+        speak('Microphone got no input')
 
 
 if __name__ == '__main__':
@@ -250,7 +248,7 @@ if __name__ == '__main__':
             speak(f"The time is{now.hour, now.minute}")
 
         elif 'game' in querty:
-            play_game()
+            play_game(querty)
 
         elif 'search' in querty or 'search for' in querty:
             if 'search for' in querty:
@@ -322,7 +320,7 @@ if __name__ == '__main__':
             speak("1 ethereum will cost you " + str(a["ethereum"]["eur"]) + " EURO.")
 
         elif "where is" in querty:
-            get_location()
+            get_location(querty)
 
         elif 'good job' in querty:
             speak("Thank you sir!")
@@ -388,9 +386,9 @@ if __name__ == '__main__':
             break
 
         elif 'add' and 'to do' in querty:
-            to_do()
+            to_do(querty)
 
         else:
-            no_answer_questions()
+            no_answer_questions(querty)
 
         time.sleep(2)

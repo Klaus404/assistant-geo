@@ -13,7 +13,7 @@ import shutil
 from random import randrange
 import wikipedia
 import requests
-import json
+import simplejson as json
 import random
 # import winshell
 # import feedparser
@@ -248,7 +248,6 @@ def no_answer_questions(not_answered):
     else:
         speak('Microphone got no input')
 
-
 if __name__ == '__main__':
 
     clear = lambda: os.system('cls')
@@ -344,14 +343,12 @@ if __name__ == '__main__':
 
             # Use the same API key
             # that we have generated earlier
-            client = wolframalpha.Client("8TJH9Y-4EJPQWA9V7")
+            app_id = "8TJH9Y-4EJPQWA9V7"
+            client = wolframalpha.Client(app_id)
             res = client.query(querty)
-
-            try:
-                print(next(res.results).text)
-                speak(next(res.results).text)
-            except StopIteration:
-                print("No results")
+            answear = next(res.results).text
+            print(answear)
+            speak(answear)
 
         elif "will you be my girlfriend" in querty or "will you be my boyfriend" in querty:
             speak("I'm not sure about, may be you should give me some time")

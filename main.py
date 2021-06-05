@@ -25,7 +25,7 @@ from ecapture import ecapture as ec
 # from bs4 import BeautifulSoup
 # import win32com.client as wincl
 # from urllib.request import urlopen
-# import tkinter
+# import tkinter as tk
 # import operator
 
 # print(json.__doc__)
@@ -35,6 +35,28 @@ engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('rate', 250)
 engine.setProperty('voice', voices[1].id)
+#
+# root = tk.Tk()
+#
+#
+# def run_Geo():
+#     var = True
+#     var = var + 1
+#
+#
+# canvas = tk.Canvas(root, height=700, width=700, bg="Orange")
+# canvas.pack()
+#
+# frame = tk.Frame(root, bg="Black")
+# frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
+#
+# runAss = tk.Button(root, text="Run Geo", padx=10, pady=5, fg="Black", bg="White", command=run_Geo)
+# runAss.pack()
+#
+# exit_program = tk.Button(root, text="Exit", padx=10, pady=5, fg="Black", bg="White", command=run_Geo)
+# exit_program.pack()
+#
+# root.mainloop()
 
 
 def speak(audio):
@@ -238,6 +260,12 @@ def get_location(location):
     webbrowser.open("https://www.google.ro/maps/place/" + location + "")
 
 
+def get_ecoin_value(ecoin):
+    value = requests.get(f'https://api.coingecko.com/api/v3/simple/price?ids={ecoin}&vs_currencies=eur')
+    a = json.loads(value.text)
+    speak(f"1 {ecoin} will cost you " + str(a[f"{ecoin}"]["eur"]) + " EURO.")
+
+
 def no_answer_questions(not_answered):
     not_answered = not_answered.lower()
     if not_answered != 'none':
@@ -247,6 +275,20 @@ def no_answer_questions(not_answered):
         speak('I don t know how to respond to this question. Try again!')
     else:
         speak('Microphone got no input')
+
+
+def system_state(action):
+    if "shutdown" in action:
+        speak("Hold On a Sec ! Your system is on its way to shut down")
+        subprocess.call('shutdown / p /f')
+    elif "restart" in action:
+        speak("Restarting computer.Please wait.")
+        subprocess.call(["shutdown", "/r"])
+    elif "log off" in action:
+        speak("Make sure all the application are closed before sign-out")
+        time.sleep(5)
+        subprocess.call(["shutdown", "/l"])
+
 
 if __name__ == '__main__':
 
@@ -287,7 +329,7 @@ if __name__ == '__main__':
             webbrowser.open("https://youtube.com/")
 
         elif 'stack overflow' in querty:
-            speak("Here you go to Stack Over flow.Happy coding")
+            speak("Here you go to Stack Over flow.")
             webbrowser.open("https://stackoverflow.com/")
 
         elif 'joke' in querty or 'jokes' in querty:
@@ -297,12 +339,12 @@ if __name__ == '__main__':
             get_random_number()
 
         elif 'league of legends' in querty or 'lol' in querty:
-            speak("Good luck to no feeders")
+            speak("Good luck and no feeders!")
             path = "C:\\Riot Games\\League of Legends\\LeagueClient.exe"
             os.startfile(path)
 
         elif 'valorant' in querty:
-            speak("Good luck Omen")
+            speak("Good luck!")
             path = "C:\\Riot Games\\VALORANT\\live\\VALORANT.exe"
             os.startfile(path)
 
@@ -320,15 +362,8 @@ if __name__ == '__main__':
         elif "wikipedia" in querty:
             webbrowser.open("https://wikipedia.com/")
 
-        elif 'bitcoin' in querty:
-            btc = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur')
-            a = json.loads(btc.text)
-            speak("1 bitcoin will cost you " + str(a["bitcoin"]["eur"]) + " EURO.")
-
-        elif 'ethereum' in querty or 'coin' in querty:
-            eth = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=eur')
-            a = json.loads(eth.text)
-            speak("1 ethereum will cost you " + str(a["ethereum"]["eur"]) + " EURO.")
+        elif 'bitcoin' in querty or 'ethereum' in querty or 'coin' in querty:
+            get_ecoin_value(querty)
 
         elif "where is" in querty:
             get_location(querty)
@@ -362,40 +397,30 @@ if __name__ == '__main__':
         elif 'is love' in querty:
             speak("It is 7th sense that destroy all other senses")
 
-        elif 'search' in querty or 'play' in querty:
-            querty = querty.replace("search", "")
-            querty = querty.replace("play", "")
-
-            if 'for' in querty:
-                querty = querty.replace("for", "")
-
-            webbrowser.open(querty)
-
-        elif 'shutdown system' in querty:
-            speak("Hold On a Sec ! Your system is on its way to shut down")
-            subprocess.call('shutdown / p /f')
+        # elif 'search' in querty or 'play' in querty:
+        #     querty = querty.replace("search", "")
+        #     querty = querty.replace("play", "")
+        #
+        #     if 'for' in querty:
+        #         querty = querty.replace("for", "")
+        #
+        #     webbrowser.open(querty)
 
         elif 'search' in querty or 'find' in querty:
             search_something(querty)
 
-        elif "restart" in querty:
-            subprocess.call(["shutdown", "/r"])
+        elif 'shutdown system' in querty or "restart" in querty or "log off" in querty:
+            system_state(querty)
 
-        elif "log off" in querty or "sign out" in querty:
-            speak("Make sure all the application are closed before sign-out")
-            time.sleep(5)
-            subprocess.call(["shutdown", "/l"])
-
-        elif 'exit' in querty:
-            speak("Thanks for giving me your time")
+        elif 'exit' or 'bye' in querty:
+            speak("Bye sir, thanks for giving me your time.")
             exit()
-
-        elif 'bye' in querty:
-            speak("Bye sir")
-            break
 
         elif 'add' and 'to do' in querty:
             to_do(querty)
+
+        elif 'repeat' and 'me' in querty:
+            speak(querty)
 
         else:
             no_answer_questions(querty)

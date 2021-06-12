@@ -83,6 +83,7 @@ def say_hi():
 def usrname():
     speak("What should i call you ")
     uname = takeCommand()
+
     speak("Welcome Mister")
     speak(uname)
     columns = shutil.get_terminal_size().columns
@@ -104,16 +105,16 @@ def takeCommand():
 
     try:
         print("Recognizing...")
-        data = r.recognize_google(audio, language='en-in')
-        speak(f"User said: {data}\n")
-        print(f"User said: {data}\n")
+        said = r.recognize_google(audio, language='en-in')
+        speak(f"User said: {said}\n")
+        print(f"User said: {said}\n")
 
     except Exception as e:
-        print(e)
+        print("EXCEPTION:" + str(e))
         speak("Could not understand.Can you repeat what you have said, please.")
         return "None"
 
-    return data
+    return said
 
 
 def take_picture():
@@ -225,10 +226,13 @@ def wiki_search(searched):
 
 def search_something(thing):
     searched_querry = ""
+
     for element in thing:
         searched_querry = searched_querry + "+" + element
+
     url = "https://www.google.com/search?q=" + searched_querry
     chrome_path = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
+
     driver = webdriver.Chrome(chrome_path)
     driver.get(url)
 
@@ -253,6 +257,26 @@ def to_do(to_do_info):
     speak(f"{to_do_info} added to your to do list!")
 
 
+def set_timer(data):
+    data = data.replace("set", "")
+    data = data.replace("the timer", "")
+    data = data.replace("for", "")
+
+    if "minute" or "minutes" in data:
+        data = data.replace("minutes", "")
+        data = data.replace("minute", "")
+        data = int(data)
+        time.sleep(60*data)
+        speak(f"Your {data} minutes have ended.")
+
+    if "second" or "seconds" in data:
+        data = data.replace("seconds", "")
+        data = data.replace("second", "")
+        data = int(data)
+        time.sleep(data)
+        speak(f"Your {data} seconds have ended.")
+
+
 def get_location(location):
     location = location.replace("where is", "")
     speak("User asked to Locate")
@@ -268,6 +292,7 @@ def get_ecoin_value(ecoin):
 
 def no_answer_questions(not_answered):
     not_answered = not_answered.lower()
+
     if not_answered != 'none':
         f = open("intrebari.txt", "a")
         f.write(not_answered + "\n")
@@ -304,7 +329,7 @@ if __name__ == '__main__':
 
         querty = str(takeCommand().lower())
 
-        if 'time' in querty:
+        if 'time' in querty and 'timer' not in querty:
             get_time()
 
         elif 'game' in querty:
@@ -355,12 +380,12 @@ if __name__ == '__main__':
             speak('Programming day.')
             webbrowser.open("https://github.com/Klaus404")
 
-        elif 'school' in querty:
+        elif 'school' in querty and 'folder' in querty:
             path = "C:\\Users\\Claudiu\\OneDrive\\Desktop\\facultate"
             os.startfile(path)
 
-        elif "wikipedia" in querty:
-            webbrowser.open("https://wikipedia.com/")
+        # elif "wikipedia" in querty:
+        #     webbrowser.open("https://wikipedia.com/")
 
         elif 'bitcoin' in querty or 'ethereum' in querty or 'coin' in querty:
             get_ecoin_value(querty)
@@ -418,6 +443,9 @@ if __name__ == '__main__':
 
         elif 'add' and 'to do' in querty:
             to_do(querty)
+
+        elif "timer" or "set timer" in querty:
+            set_timer(querty)
 
         elif 'repeat' and 'me' in querty:
             speak(querty)

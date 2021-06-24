@@ -1,20 +1,24 @@
-import subprocess
-import wolframalpha
-import pyttsx3
-import speech_recognition as sr
-from datetime import datetime
 import datetime
-import webbrowser
-from selenium import webdriver
 import os
-import pyjokes
-import time
+import random
 import shutil
+import subprocess
+import time
+# from bs4 import BeautifulSoup
+# import win32com.client as wincl
+# from urllib.request import urlopen
+# import tkinter as tk
+import webbrowser
+from datetime import datetime
 from random import randrange
-import wikipedia
+
+import pyjokes
+# import wolframalpha
+import pyttsx3
 import requests
 import simplejson as json
-import random
+import speech_recognition as sr
+import wikipedia
 # import winshell
 # import feedparser
 # import smtplib
@@ -22,10 +26,8 @@ import random
 # from twilio.rest import Client
 # from clint.textui import progress
 from ecapture import ecapture as ec
-# from bs4 import BeautifulSoup
-# import win32com.client as wincl
-# from urllib.request import urlopen
-# import tkinter as tk
+from selenium import webdriver
+
 # import operator
 
 # print(json.__doc__)
@@ -35,28 +37,6 @@ engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('rate', 250)
 engine.setProperty('voice', voices[1].id)
-#
-# root = tk.Tk()
-#
-#
-# def run_Geo():
-#     var = True
-#     var = var + 1
-#
-#
-# canvas = tk.Canvas(root, height=700, width=700, bg="Orange")
-# canvas.pack()
-#
-# frame = tk.Frame(root, bg="Black")
-# frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-#
-# runAss = tk.Button(root, text="Run Geo", padx=10, pady=5, fg="Black", bg="White", command=run_Geo)
-# runAss.pack()
-#
-# exit_program = tk.Button(root, text="Exit", padx=10, pady=5, fg="Black", bg="White", command=run_Geo)
-# exit_program.pack()
-#
-# root.mainloop()
 
 
 def speak(audio):
@@ -214,11 +194,13 @@ def get_random_number():
 
 
 def wiki_search(searched):
-    if 'search for' in querty:
+    if 'search for' in searched:
         ser = searched.replace("search for", "")
     else:
         ser = searched.replace("search", "")
 
+    f = open(f"{ser}.txt", "w")
+    f.write(wikipedia.summary(ser))
     engine.setProperty('rate', 150)
     speak(wikipedia.summary(ser))
     print(wikipedia.summary(ser))
@@ -285,9 +267,18 @@ def get_location(location):
 
 
 def get_ecoin_value(ecoin):
+
+    if 'ethereum' in ecoin:
+        ecoin = 'ethereum'
+
+    if 'bitcoin' in ecoin:
+        ecoin = 'bitcoin'
+
     value = requests.get(f'https://api.coingecko.com/api/v3/simple/price?ids={ecoin}&vs_currencies=eur')
     a = json.loads(value.text)
+
     speak(f"1 {ecoin} will cost you " + str(a[f"{ecoin}"]["eur"]) + " EURO.")
+    print(f"1 {ecoin} will cost you " + str(a[f"{ecoin}"]["eur"]) + " EURO.")
 
 
 def no_answer_questions(not_answered):
@@ -315,7 +306,7 @@ def system_state(action):
         subprocess.call(["shutdown", "/l"])
 
 
-if __name__ == '__main__':
+def go_Geo():
 
     clear = lambda: os.system('cls')
     # This Function will clean any
@@ -360,7 +351,7 @@ if __name__ == '__main__':
         elif 'joke' in querty or 'jokes' in querty:
             speak(pyjokes.get_joke())
 
-        elif 'generate' and 'random' in querty:
+        elif 'generate' in querty and 'random' in querty:
             get_random_number()
 
         elif 'league of legends' in querty or 'lol' in querty:
@@ -384,8 +375,8 @@ if __name__ == '__main__':
             path = "C:\\Users\\Claudiu\\OneDrive\\Desktop\\facultate"
             os.startfile(path)
 
-        # elif "wikipedia" in querty:
-        #     webbrowser.open("https://wikipedia.com/")
+        elif "wikipedia" in querty and 'open' in querty:
+            webbrowser.open("https://wikipedia.com/")
 
         elif 'bitcoin' in querty or 'ethereum' in querty or 'coin' in querty:
             get_ecoin_value(querty)
@@ -399,16 +390,16 @@ if __name__ == '__main__':
         elif 'beautiful' in querty or 'pretty' in querty:
             speak("Im pretty sure it is Beatrice!")
 
-        elif "what is" in querty or "who is" in querty:
-
-            # Use the same API key
-            # that we have generated earlier
-            app_id = "8TJH9Y-4EJPQWA9V7"
-            client = wolframalpha.Client(app_id)
-            res = client.query(querty)
-            answear = next(res.results).text
-            print(answear)
-            speak(answear)
+        # elif "what is" in querty or "who is" in querty:
+        #
+        #     # Use the same API key
+        #     # that we have generated earlier
+        #     app_id = "8TJH9Y-4EJPQWA9V7"
+        #     client = wolframalpha.Client(app_id)
+        #     res = client.query(querty)
+        #     answear = next(res.results).text
+        #     print(answear)
+        #     speak(answear)
 
         elif "will you be my girlfriend" in querty or "will you be my boyfriend" in querty:
             speak("I'm not sure about, may be you should give me some time")
@@ -437,17 +428,17 @@ if __name__ == '__main__':
         elif 'shutdown system' in querty or "restart" in querty or "log off" in querty:
             system_state(querty)
 
-        elif 'exit' or 'bye' in querty:
+        elif 'exit' in querty or 'bye' in querty:
             speak("Bye sir, thanks for giving me your time.")
             exit()
 
         elif 'add' and 'to do' in querty:
             to_do(querty)
 
-        elif "timer" or "set timer" in querty:
+        elif "timer" in querty or "set timer" in querty:
             set_timer(querty)
 
-        elif 'repeat' and 'me' in querty:
+        elif 'repeat' in querty and 'me' in querty:
             speak(querty)
 
         else:

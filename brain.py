@@ -1,36 +1,8 @@
-# import datetime
 import os
-# import random
-# import shutil
-# import subprocess
 import time
-# from bs4 import BeautifulSoup
-# import win32com.client as wincl
-# from urllib.request import urlopen
-# import tkinter as tk
 import webbrowser
-# from datetime import datetime
-# from random import randrange
 import pyjokes
-# import wolframalpha
-# import pyttsx3
-# import requests
-# import simplejson as json
-# import speech_recognition as sr
-# import wikipedia
-# import winshell
-# import feedparser
-# import smtplib
-# import ctypes
-# from twilio.rest import Client
-# from clint.textui import progress
-# from ecapture import ecapture as ec
-# from selenium import webdriver
 import chatFunctions
-
-# import operator
-
-# print(json.__doc__)
 
 
 def go_Geo():

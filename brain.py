@@ -67,7 +67,7 @@ def usrname():
     speak(f"Is your name {uname}?")
     answer = takeCommand()
 
-    while "yes" not in uname:
+    while "yes" not in answer:
         uname = takeCommand()
         speak(f"Is your name {uname}?")
         answer = takeCommand()
@@ -108,6 +108,7 @@ def takeCommand():
 def current_working_dir():
     print(os.getcwd())
     speak(os.getcwd())
+
 
 def take_picture():
     ec.capture(0, False, "poza.jpg")
@@ -310,7 +311,6 @@ def play_music(song):
     speak("Opening the best songs for you")
     link = ""
 
-
     if "some":
         song = song.replace("some", "")
 
@@ -344,7 +344,9 @@ def go_Geo():
     # say_hi()
     # usrname()
 
-    while True:
+    sem = 1
+
+    while sem:
 
         querty = str(takeCommand().lower())
 
@@ -369,7 +371,7 @@ def go_Geo():
             take_picture()
 
         elif "music" in querty:
-            play_music()
+            play_music(querty)
 
         elif 'stack overflow' in querty:
             speak("Here you go to Stack Over flow.")
@@ -457,7 +459,7 @@ def go_Geo():
 
         elif 'exit' in querty or 'bye' in querty:
             speak("Bye sir, thanks for giving me your time.")
-            exit()
+            sem = 0
 
         elif 'add' and 'to do' in querty:
             to_do(querty)

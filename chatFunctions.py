@@ -11,7 +11,7 @@ import time
 import webbrowser
 from datetime import datetime
 from random import randrange
-import pyjokes
+# import pyjokes
 # import wolframalpha
 import pyttsx3
 import requests
@@ -26,7 +26,7 @@ import wikipedia
 # from clint.textui import progress
 from ecapture import ecapture as ec
 from selenium import webdriver
-import chatFunctions
+
 
 # import operator
 
@@ -299,7 +299,8 @@ def no_answer_questions(not_answered):
     not_answered = not_answered.lower()
 
     if not_answered != 'none':
-        f = open("intrebari.txt", "a")
+        path = "C:/Users/Claudiu/PycharmProjects/chatBotMe/intrebari.txt"
+        f = open(path, "a")
         f.write(not_answered + "\n")
         f.close()
         speak('I don t know how to respond to this question. Try again!')
@@ -333,4 +334,3 @@ def system_state(action):
         speak("Make sure all the application are closed before sign-out")
         time.sleep(5)
         subprocess.call(["shutdown", "/l"])
-

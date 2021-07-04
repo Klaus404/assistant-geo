@@ -1,7 +1,5 @@
 import os
 import time
-import webbrowser
-import pyjokes
 import chatFunctions
 
 
@@ -31,12 +29,10 @@ def go_Geo():
             chatFunctions.wiki_search(querty)
 
         elif 'google' in querty or 'gogu' in querty:
-            chatFunctions.speak("Opening Google.Com")
-            webbrowser.open("https://google.com/")
+            chatFunctions.openGogu()
 
         elif 'university' in querty:
-            chatFunctions.speak("Opening Hybrid Learning")
-            webbrowser.open("https://online.ase.ro/")
+            chatFunctions.openAse()
 
         elif 'picture' in querty:
             chatFunctions.take_picture()
@@ -45,35 +41,28 @@ def go_Geo():
             chatFunctions.play_music(querty)
 
         elif 'stack overflow' in querty:
-            chatFunctions.speak("Here you go to Stack Over flow.")
-            webbrowser.open("https://stackoverflow.com/")
+            chatFunctions.openStack()
 
         elif 'joke' in querty or 'jokes' in querty:
-            chatFunctions.speak(pyjokes.get_joke())
+            chatFunctions.joker()
 
         elif 'generate' in querty and 'random' in querty:
             chatFunctions.get_random_number()
 
         elif 'league of legends' in querty or 'lol' in querty:
-            chatFunctions.speak("Good luck and no feeders!")
-            path = "C:\\Riot Games\\League of Legends\\LeagueClient.exe"
-            os.startfile(path)
+            chatFunctions.openLol()
 
         elif 'valorant' in querty:
-            chatFunctions.speak("Good luck!")
-            path = "C:\\Riot Games\\VALORANT\\live\\VALORANT.exe"
-            os.startfile(path)
+            chatFunctions.openValorant()
 
         elif 'who made you' in querty or 'who created you' in querty:
             chatFunctions.speak('I have been created by Klaus')
 
         elif 'git' in querty or 'github' in querty:
-            chatFunctions.speak('Programming day.')
-            webbrowser.open("https://github.com/Klaus404")
+            chatFunctions.openGitHub()
 
         elif 'school' in querty and 'folder' in querty:
-            path = "C:\\Users\\Claudiu\\OneDrive\\Desktop\\facultate"
-            os.startfile(path)
+            chatFunctions.openSchoolFolder()
 
         elif 'bitcoin' in querty or 'ethereum' in querty or 'coin' in querty:
             chatFunctions.get_ecoin_value(querty)
@@ -128,10 +117,6 @@ def go_Geo():
         elif 'shutdown system' in querty or "restart" in querty or "log off" in querty:
             chatFunctions.system_state(querty)
 
-        elif 'exit' in querty or 'bye' in querty:
-            chatFunctions.speak("Bye sir, thanks for giving me your time.")
-            sem = 0
-
         elif 'add' and 'to do' in querty:
             chatFunctions.to_do(querty)
 
@@ -140,6 +125,10 @@ def go_Geo():
 
         elif 'repeat' in querty and 'me' in querty:
             chatFunctions.speak(querty)
+
+        elif 'exit' in querty or 'bye' in querty:
+            chatFunctions.speak("Bye sir, thanks for giving me your time.")
+            sem = 0
 
         else:
             chatFunctions.no_answer_questions(querty)

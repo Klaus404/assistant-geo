@@ -8,9 +8,9 @@ root = tk.Tk()
 root.title('Geo assistant')
 
 root.resizable(width=True, height=True)
-root.geometry("1920x1080")
+root.geometry("1540x790")
 
-bg = PhotoImage(file="C:/Users/Claudiu/PycharmProjects/chatBotMe/assistant.png")
+bg = PhotoImage(file="C:/Users/Claudiu/PycharmProjects/chatBotMe/asistent.png")
 label1 = Label(root, image=bg)
 label1.place(x=0, y=0)
 

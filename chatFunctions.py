@@ -4,6 +4,7 @@ import random
 import shutil
 import subprocess
 import time
+import pyjokes
 # from bs4 import BeautifulSoup
 # import win32com.client as wincl
 # from urllib.request import urlopen
@@ -82,6 +83,46 @@ def usrname():
     print("#####################".center(columns))
 
     speak("How can i Help you?")
+
+def openGogu():
+    speak("Opening Google.Com")
+    webbrowser.open("https://google.com/")
+
+
+def openAse():
+    speak("Opening Hybrid Learning")
+    webbrowser.open("https://online.ase.ro/")
+
+
+def openStack():
+    speak("Here you go to Stack Over flow.")
+    webbrowser.open("https://stackoverflow.com/")
+
+
+def openLol():
+    speak("Good luck and no feeders!")
+    path = "C:\\Riot Games\\League of Legends\\LeagueClient.exe"
+    os.startfile(path)
+
+
+def openValorant():
+    speak("Good luck!")
+    path = "C:\\Riot Games\\VALORANT\\live\\VALORANT.exe"
+    os.startfile(path)
+
+
+def openSchoolFolder():
+    path = "C:\\Users\\Claudiu\\OneDrive\\Desktop\\facultate"
+    os.startfile(path)
+
+
+def openGitHub():
+    speak('Programming day.')
+    webbrowser.open("https://github.com/Klaus404")
+
+
+def joker():
+    speak(pyjokes.get_joke())
 
 
 def takeCommand():

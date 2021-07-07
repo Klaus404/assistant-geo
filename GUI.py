@@ -27,7 +27,8 @@ label1.place(x=0, y=0)
 runAss = tk.Button(root, text="Run Geo", padx=10, pady=5, fg="Black", bg="White", command=brain.go_Geo, font="Jomhuria")
 runAss.pack()
 
-exit_program = tk.Button(root, text="Exit", padx=10, pady=5, fg="Black", bg="White", command=quit, font="Jomhuria")
+exit_program = tk.Button(root, text="Exit", padx=10, pady=5, fg="Black", bg="White",
+                         command=brain.ItSOver, font="Jomhuria")
 exit_program.pack()
 
 root.mainloop()

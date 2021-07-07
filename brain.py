@@ -134,3 +134,8 @@ def go_Geo():
             chatFunctions.no_answer_questions(querty)
 
         time.sleep(1)
+
+
+def ItSOver():
+    chatFunctions.speak("Bye sir, see you next time!")
+    quit()
